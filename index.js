@@ -54,4 +54,26 @@ app.get("/api/players/:id",async(req,res)=>{
     }
 })
 
+//UPDATING THE DATA
+
+app.put("/api/players/:id",async (req,res)=>{
+    try{
+        const { id } = req.params;
+        const player = await Player.findByIdAndUpdate(id, req.body);
+        
+        if (!player){
+            res.status(404).json({message:"Product not found"})
+        }
+
+        const updatedPlayer = await Player.findById(id);
+
+
+        res.status(200).json(updatedPlayer)
+
+    }
+    catch (error){
+        res.status(500).json({message:error.message})
+    }
+})
+
 app.listen(8000,()=>{console.log("Server staring...")})
