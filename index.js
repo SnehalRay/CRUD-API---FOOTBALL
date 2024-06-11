@@ -1,14 +1,16 @@
-import express, { json } from 'express'
+import express, { json, urlencoded } from 'express'
 import mongoose from 'mongoose';
 import Player from './models/players.js';
+import password from './password/password.js'; //MONGODB PASSWORD which is hidden
 
 const app = express();
 
 app.use(express.json())
+app.use(express.urlencoded({extended:false}))
 
 app.get("/",(req,res)=>{res.send("Hello")})
 
-await mongoose.connect("mongodb+srv://snehalray10:Snehal2005@backenddb.l08tkkl.mongodb.net/CRUD-NodeAPI-Football?retryWrites=true&w=majority&appName=BackendDB")
+await mongoose.connect(`mongodb+srv://snehalray10:${password}@backenddb.l08tkkl.mongodb.net/CRUD-NodeAPI-Football?retryWrites=true&w=majority&appName=BackendDB`)
 .then(()=>{console.log("Connected to database")})
 .catch(()=>{console.log("Connection to database FAILED")})
 
