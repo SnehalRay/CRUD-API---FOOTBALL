@@ -62,7 +62,7 @@ app.put("/api/players/:id",async (req,res)=>{
         const player = await Player.findByIdAndUpdate(id, req.body);
         
         if (!player){
-            res.status(404).json({message:"Product not found"})
+            return res.status(404).json({message:"Player not found"})
         }
 
         const updatedPlayer = await Player.findById(id);
@@ -72,6 +72,25 @@ app.put("/api/players/:id",async (req,res)=>{
 
     }
     catch (error){
+        res.status(500).json({message:error.message})
+    }
+})
+
+//DELETING THE DATA
+
+app.delete("/api/players/:id",async (req,res)=>{
+    try{
+        const { id } = req.params;
+        const player = await Player.findByIdAndDelete(id);
+
+        if (!player){
+            return res.status(400).json({message:"Player not found"});
+        }
+
+        res.status(200).json({message:"Player successfully deleted",player:player})
+
+    }
+    catch(error){
         res.status(500).json({message:error.message})
     }
 })
